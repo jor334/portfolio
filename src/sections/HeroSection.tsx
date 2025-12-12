@@ -1,5 +1,97 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
+import { 
+  SiReact, 
+  SiTypescript, 
+  SiPython, 
+  SiAngular,
+  SiDocker,
+  SiMongodb,
+} from "react-icons/si";
+import { FaJava } from "react-icons/fa";
+
+const FloatingIcon = ({ 
+  Icon, 
+  color, 
+  initialX, 
+  initialY,
+  delay,
+}: { 
+  Icon: React.ElementType; 
+  color: string; 
+  initialX: string;
+  initialY: string;
+  delay: number;
+}) => {
+  const iconRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = iconRef.current;
+    if (!el) return;
+
+    const duration = 3 + Math.random() * 2;
+    const xRange = 20 + Math.random() * 30;
+    const yRange = 15 + Math.random() * 25;
+
+    gsap.fromTo(el, 
+      { opacity: 0, scale: 0 },
+      { 
+        opacity: 0.7, 
+        scale: 1, 
+        duration: 0.8, 
+        delay: delay,
+        ease: "back.out(1.7)"
+      }
+    );
+
+    const tl = gsap.timeline({ repeat: -1, yoyo: true, delay: delay });
+    tl.to(el, {
+      x: `+=${xRange}`,
+      y: `+=${yRange}`,
+      rotation: 10,
+      duration: duration,
+      ease: "sine.inOut",
+    }).to(el, {
+      x: `-=${xRange * 0.5}`,
+      y: `-=${yRange * 1.2}`,
+      rotation: -8,
+      duration: duration * 0.8,
+      ease: "sine.inOut",
+    }).to(el, {
+      x: `-=${xRange * 0.5}`,
+      y: `+=${yRange * 0.2}`,
+      rotation: 5,
+      duration: duration * 0.7,
+      ease: "sine.inOut",
+    });
+
+    return () => {
+      tl.kill();
+    };
+  }, [delay]);
+
+  return (
+    <div
+      ref={iconRef}
+      className="absolute pointer-events-none"
+      style={{ 
+        left: initialX, 
+        top: initialY,
+        opacity: 0,
+      }}
+    >
+      <div 
+        className="p-3 rounded-full backdrop-blur-sm shadow-lg"
+        style={{ 
+          backgroundColor: `${color}20`,
+          border: `2px solid ${color}40`,
+        }}
+      >
+        <Icon className="text-2xl md:text-3xl" style={{ color }} />
+      </div>
+    </div>
+  );
+};
 
 const HeroSection = () => {
   const titleRef = useRef<HTMLHeadingElement>(null);
@@ -11,14 +103,12 @@ const HeroSection = () => {
   useEffect(() => {
     const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
 
-    // Initial states
     gsap.set([titleRef.current, subtitleRef.current, descriptionRef.current, buttonsRef.current], {
       opacity: 0,
       y: 50,
     });
     gsap.set(scrollIndicatorRef.current, { opacity: 0, y: 20 });
 
-    // Animation sequence
     tl.to(titleRef.current, { opacity: 1, y: 0, duration: 0.8 })
       .to(subtitleRef.current, { opacity: 1, y: 0, duration: 0.8 }, '-=0.5')
       .to(descriptionRef.current, { opacity: 1, y: 0, duration: 0.6 }, '-=0.4')
@@ -30,8 +120,30 @@ const HeroSection = () => {
     };
   }, []);
 
+  const floatingIcons = [
+    { Icon: SiReact, color: '#61DAFB', x: '8%', y: '20%', delay: 0.5 },
+    { Icon: SiTypescript, color: '#3178C6', x: '85%', y: '25%', delay: 0.7 },
+    { Icon: SiPython, color: '#3776AB', x: '12%', y: '65%', delay: 0.9 },
+    { Icon: SiAngular, color: '#DD0031', x: '88%', y: '60%', delay: 1.1 },
+    { Icon: FaJava, color: '#007396', x: '5%', y: '45%', delay: 1.3 },
+    { Icon: SiDocker, color: '#2496ED', x: '92%', y: '40%', delay: 1.5 },
+    { Icon: SiMongodb, color: '#47A248', x: '15%', y: '80%', delay: 1.7 },
+  ];
+
   return (
     <section className="min-h-screen flex items-center justify-center px-8 relative overflow-hidden">
+      {/* Floating tech icons */}
+      {floatingIcons.map((icon, index) => (
+        <FloatingIcon
+          key={index}
+          Icon={icon.Icon}
+          color={icon.color}
+          initialX={icon.x}
+          initialY={icon.y}
+          delay={icon.delay}
+        />
+      ))}
+
       <div className="max-w-4xl text-center z-10">
         <h1 
           ref={titleRef}

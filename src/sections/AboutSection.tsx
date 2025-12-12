@@ -2,7 +2,7 @@ import { useRef, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Card from "../components/Card";
-import { FaCode, FaRobot, FaServer, FaCogs, FaJava, FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { FaCode, FaRobot, FaServer, FaCogs, FaJava } from "react-icons/fa";
 import { 
   SiReact, 
   SiAngular, 
@@ -20,35 +20,27 @@ import { TbBrandReactNative } from "react-icons/tb";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const AboutSection = () => {
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const sectionRef = useRef<HTMLElement>(null);
+const technologies = [
+  { Icon: SiReact, color: '#61DAFB', name: 'React' },
+  { Icon: TbBrandReactNative, color: '#61DAFB', name: 'React Native' },
+  { Icon: SiAngular, color: '#DD0031', name: 'Angular' },
+  { Icon: SiDjango, color: '#092E20', name: 'Django' },
+  { Icon: SiSpringboot, color: '#6DB33F', name: 'Spring Boot' },
+  { Icon: FaJava, color: '#007396', name: 'Java' },
+  { Icon: SiSupabase, color: '#3ECF8E', name: 'Supabase' },
+  { Icon: SiMysql, color: '#4479A1', name: 'SQL' },
+  { Icon: SiMongodb, color: '#47A248', name: 'MongoDB' },
+  { Icon: SiGithub, color: '#181717', name: 'GitHub' },
+  { Icon: SiDocker, color: '#2496ED', name: 'Docker' },
+  { Icon: SiAmazon, color: '#FF9900', name: 'AWS' },
+  { Icon: SiPython, color: '#3776AB', name: 'Python' },
+];
 
-  const scroll = (direction: 'left' | 'right') => {
-    if (scrollContainerRef.current) {
-      const container = scrollContainerRef.current;
-      const scrollAmount = 300;
-      const maxScroll = container.scrollWidth - container.clientWidth;
-      
-      if (direction === 'right') {
-        if (container.scrollLeft >= maxScroll - 10) {
-          container.scrollTo({ left: 0, behavior: 'smooth' });
-        } else {
-          container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-        }
-      } else {
-        if (container.scrollLeft <= 10) {
-          container.scrollTo({ left: maxScroll, behavior: 'smooth' });
-        } else {
-          container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
-        }
-      }
-    }
-  };
+const AboutSection = () => {
+  const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Smooth parallax reveal for all animated elements
       const animatedElements = gsap.utils.toArray<HTMLElement>('.gsap-fade-up');
       
       animatedElements.forEach((element) => {
@@ -121,135 +113,42 @@ const AboutSection = () => {
 
         {/* Text */}
         <div className="gsap-fade-up text-center">
-          <p className="text-gray-600 mt-10">
+          <p className="text-gray-600 mt-10 text-lg">
           Soy estudiante de Ingeniería de Software con pasión por el desarrollo full stack <br /> y especial énfasis en frontend. Mi trabajo en la iniciativa de drones autónomos de mi universidad me ha <br /> permitido combinar programación avanzada con conocimientos de electrónica. Me especializo <br /> en crear soluciones innovadoras que integran desarrollo web moderno, sistemas ERP <br /> y automatización con inteligencia artificial.
           </p>
         </div>
 
-        {/* Technologies */}
+        {/* Technologies Grid */}
         <div className="mt-16">
           <h3 className="gsap-fade-up text-2xl font-bold text-center mb-8 text-gray-800">
             Tecnologías
           </h3>
           
-          {/* Carousel with controls */}
-          <div className="gsap-fade-up relative">
-            {/* Left button */}
-            <button
-              onClick={() => scroll('left')}
-              className="absolute -left-4 top-1/2 -translate-y-1/2 z-20 bg-white hover:bg-gray-100 shadow-lg rounded-full p-3 border border-gray-200 cursor-pointer"
-              type="button"
-            >
-              <FaChevronLeft className="text-gray-700 text-xl" />
-            </button>
-
-            {/* Right button */}
-            <button
-              onClick={() => scroll('right')}
-              className="absolute -right-4 top-1/2 -translate-y-1/2 z-20 bg-white hover:bg-gray-100 shadow-lg rounded-full p-3 border border-gray-200 cursor-pointer"
-              type="button"
-            >
-              <FaChevronRight className="text-gray-700 text-xl" />
-            </button>
-
-            {/* Scroll container */}
-            <div 
-              ref={scrollContainerRef}
-              className="overflow-x-scroll mx-8"
-              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', WebkitOverflowScrolling: 'touch' }}
-            >
-              <div className="flex gap-6 py-4 w-max">
-                <div className="flex flex-col items-center justify-center flex-shrink-0 w-24">
-                  <div className="w-16 h-16 flex items-center justify-center rounded-xl bg-gray-50 shadow-md hover:shadow-xl transition-all duration-300 hover:scale-110">
-                    <SiReact className="text-3xl text-[#61DAFB]" />
+          <div className="gsap-fade-up bg-gray-50 rounded-2xl p-6 md:p-8">
+            <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-7 lg:grid-cols-13 gap-6 justify-items-center">
+              {technologies.map((tech, index) => (
+                <div 
+                  key={index}
+                  className="flex flex-col items-center group"
+                >
+                  <div 
+                    className="w-14 h-14 md:w-16 md:h-16 flex items-center justify-center rounded-xl bg-white border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-300 hover:scale-110 hover:-translate-y-1 cursor-pointer"
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = `${tech.color}20`;
+                      e.currentTarget.style.borderColor = tech.color;
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = '';
+                      e.currentTarget.style.borderColor = '';
+                    }}
+                  >
+                    <tech.Icon className="text-2xl md:text-3xl transition-transform duration-300 group-hover:scale-110" style={{ color: tech.color }} />
                   </div>
-                  <span className="text-sm text-gray-600 mt-2 font-medium">React</span>
+                  <span className="text-xs md:text-sm text-gray-700 mt-2 font-semibold text-center">
+                    {tech.name}
+                  </span>
                 </div>
-                
-                <div className="flex flex-col items-center justify-center flex-shrink-0 w-24">
-                  <div className="w-16 h-16 flex items-center justify-center rounded-xl bg-gray-50 shadow-md hover:shadow-xl transition-all duration-300 hover:scale-110">
-                    <TbBrandReactNative className="text-3xl text-[#61DAFB]" />
-                  </div>
-                  <span className="text-sm text-gray-600 mt-2 font-medium text-center">React Native</span>
-                </div>
-                
-                <div className="flex flex-col items-center justify-center flex-shrink-0 w-24">
-                  <div className="w-16 h-16 flex items-center justify-center rounded-xl bg-gray-50 shadow-md hover:shadow-xl transition-all duration-300 hover:scale-110">
-                    <SiAngular className="text-3xl text-[#DD0031]" />
-                  </div>
-                  <span className="text-sm text-gray-600 mt-2 font-medium">Angular</span>
-                </div>
-                
-                <div className="flex flex-col items-center justify-center flex-shrink-0 w-24">
-                  <div className="w-16 h-16 flex items-center justify-center rounded-xl bg-gray-50 shadow-md hover:shadow-xl transition-all duration-300 hover:scale-110">
-                    <SiDjango className="text-3xl text-[#092E20]" />
-                  </div>
-                  <span className="text-sm text-gray-600 mt-2 font-medium">Django</span>
-                </div>
-                
-                <div className="flex flex-col items-center justify-center flex-shrink-0 w-24">
-                  <div className="w-16 h-16 flex items-center justify-center rounded-xl bg-gray-50 shadow-md hover:shadow-xl transition-all duration-300 hover:scale-110">
-                    <SiSpringboot className="text-3xl text-[#6DB33F]" />
-                  </div>
-                  <span className="text-sm text-gray-600 mt-2 font-medium text-center">Spring Boot</span>
-                </div>
-                
-                <div className="flex flex-col items-center justify-center flex-shrink-0 w-24">
-                  <div className="w-16 h-16 flex items-center justify-center rounded-xl bg-gray-50 shadow-md hover:shadow-xl transition-all duration-300 hover:scale-110">
-                    <FaJava className="text-3xl text-[#007396]" />
-                  </div>
-                  <span className="text-sm text-gray-600 mt-2 font-medium">Java</span>
-                </div>
-                
-                <div className="flex flex-col items-center justify-center flex-shrink-0 w-24">
-                  <div className="w-16 h-16 flex items-center justify-center rounded-xl bg-gray-50 shadow-md hover:shadow-xl transition-all duration-300 hover:scale-110">
-                    <SiSupabase className="text-3xl text-[#3ECF8E]" />
-                  </div>
-                  <span className="text-sm text-gray-600 mt-2 font-medium">Supabase</span>
-                </div>
-                
-                <div className="flex flex-col items-center justify-center flex-shrink-0 w-24">
-                  <div className="w-16 h-16 flex items-center justify-center rounded-xl bg-gray-50 shadow-md hover:shadow-xl transition-all duration-300 hover:scale-110">
-                    <SiMysql className="text-3xl text-[#4479A1]" />
-                  </div>
-                  <span className="text-sm text-gray-600 mt-2 font-medium">SQL</span>
-                </div>
-                
-                <div className="flex flex-col items-center justify-center flex-shrink-0 w-24">
-                  <div className="w-16 h-16 flex items-center justify-center rounded-xl bg-gray-50 shadow-md hover:shadow-xl transition-all duration-300 hover:scale-110">
-                    <SiMongodb className="text-3xl text-[#47A248]" />
-                  </div>
-                  <span className="text-sm text-gray-600 mt-2 font-medium">MongoDB</span>
-                </div>
-                
-                <div className="flex flex-col items-center justify-center flex-shrink-0 w-24">
-                  <div className="w-16 h-16 flex items-center justify-center rounded-xl bg-gray-50 shadow-md hover:shadow-xl transition-all duration-300 hover:scale-110">
-                    <SiGithub className="text-3xl text-[#181717]" />
-                  </div>
-                  <span className="text-sm text-gray-600 mt-2 font-medium">GitHub</span>
-                </div>
-                
-                <div className="flex flex-col items-center justify-center flex-shrink-0 w-24">
-                  <div className="w-16 h-16 flex items-center justify-center rounded-xl bg-gray-50 shadow-md hover:shadow-xl transition-all duration-300 hover:scale-110">
-                    <SiDocker className="text-3xl text-[#2496ED]" />
-                  </div>
-                  <span className="text-sm text-gray-600 mt-2 font-medium">Docker</span>
-                </div>
-                
-                <div className="flex flex-col items-center justify-center flex-shrink-0 w-24">
-                  <div className="w-16 h-16 flex items-center justify-center rounded-xl bg-gray-50 shadow-md hover:shadow-xl transition-all duration-300 hover:scale-110">
-                    <SiAmazon className="text-3xl text-[#FF9900]" />
-                  </div>
-                  <span className="text-sm text-gray-600 mt-2 font-medium">AWS</span>
-                </div>
-                
-                <div className="flex flex-col items-center justify-center flex-shrink-0 w-24">
-                  <div className="w-16 h-16 flex items-center justify-center rounded-xl bg-gray-50 shadow-md hover:shadow-xl transition-all duration-300 hover:scale-110">
-                    <SiPython className="text-3xl text-[#3776AB]" />
-                  </div>
-                  <span className="text-sm text-gray-600 mt-2 font-medium">Python</span>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>
