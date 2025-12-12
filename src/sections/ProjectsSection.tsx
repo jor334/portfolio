@@ -1,5 +1,10 @@
+import { useRef, useEffect } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { FaGithub, FaExternalLinkAlt, FaYoutube, FaLinkedin, FaFileAlt } from 'react-icons/fa';
 import type { IconType } from 'react-icons';
+
+gsap.registerPlugin(ScrollTrigger);
 
 type LinkType = 'github' | 'demo' | 'youtube' | 'linkedin' | 'docs' | 'other';
 
@@ -29,6 +34,8 @@ const linkIcons: Record<LinkType, IconType> = {
 };
 
 const ProjectsSection = () => {
+  const sectionRef = useRef<HTMLElement>(null);
+
   const projects: Project[] = [
     {
       id: 1,
@@ -76,10 +83,39 @@ const ProjectsSection = () => {
     },
   ];
 
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      const animatedElements = gsap.utils.toArray<HTMLElement>('.gsap-fade-up');
+      
+      animatedElements.forEach((element) => {
+        gsap.fromTo(element,
+          { 
+            y: 30,
+            opacity: 0,
+          },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 1,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: element,
+              start: "top 92%",
+              end: "top 60%",
+              scrub: 1,
+            },
+          }
+        );
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section id="projects" className="py-24 px-8 bg-gray-50">
+    <section ref={sectionRef} id="projects" className="py-24 px-8 bg-gray-50">
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-4xl md:text-5xl text-center mb-16 text-gray-800 font-bold">
+        <h2 className="gsap-fade-up text-4xl md:text-5xl text-center mb-16 text-gray-800 font-bold">
           Mis{' '}
           <span className="bg-gradient-to-r from-blue-500 via-cyan-400 to-cyan-500 bg-clip-text text-transparent font-bold">
             Proyectos
@@ -90,7 +126,7 @@ const ProjectsSection = () => {
           {projects.map((project) => (
             <div 
               key={project.id}
-              className="bg-white rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100"
+              className="gsap-fade-up bg-white rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100"
             >
               {/* Header: Category + Icons */}
               <div className="flex items-center justify-between mb-4">
