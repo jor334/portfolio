@@ -1,8 +1,7 @@
-// Footer component
 const Footer = () => {
   return (
-    <footer className="mt-24 pt-8 text-center border-t border-gray-300 dark:border-gray-700">
-      <p className="text-gray-600 dark:text-gray-400">
+    <footer className="mt-16 pt-8 pb-4 text-center border-t border-gray-200">
+      <p className="text-gray-500 text-sm">
         &copy; {new Date().getFullYear()} Juan Jose Ortiz Rouille. Todos los derechos reservados.
       </p>
     </footer>

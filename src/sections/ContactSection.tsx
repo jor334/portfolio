@@ -63,9 +63,7 @@ const ContactSection = () => {
         </div>
       </div>
       
-      <div className="gsap-fade-up">
-        <Footer />
-      </div>
+      <Footer />
     </section>
   );
 };
