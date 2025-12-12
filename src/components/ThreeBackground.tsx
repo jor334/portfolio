@@ -9,17 +9,6 @@ export function ThreeBackground() {
     if (!containerRef.current || initialized.current) return;
     initialized.current = true;
 
-    // Mouse state
-    const mouse = { x: 0, y: 0 };
-    
-    const updateMouse = (e: MouseEvent) => {
-      mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
-      mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
-    };
-    
-    document.addEventListener('mousemove', updateMouse);
-    document.addEventListener('mouseenter', updateMouse);
-
     // Scene setup
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0xf0f9ff);
@@ -64,20 +53,17 @@ export function ThreeBackground() {
     const armMat = new THREE.MeshStandardMaterial({ color: 0x3d3d3d, metalness: 0.6, roughness: 0.4 });
     const bladeMat = new THREE.MeshStandardMaterial({ color: 0x0ea5e9, transparent: true, opacity: 0.6 });
     
-    // Cuerpo central - más compacto y redondeado
+    // Cuerpo central
     const bodyGroup = new THREE.Group();
     
-    // Cuerpo principal
     const body = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.2, 0.5), bodyMat);
     body.position.y = 0.05;
     bodyGroup.add(body);
     
-    // Tapa superior
     const topCover = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.08, 0.4), darkMat);
     topCover.position.y = 0.19;
     bodyGroup.add(topCover);
     
-    // Base inferior
     const bottomPlate = new THREE.Mesh(new THREE.BoxGeometry(0.45, 0.05, 0.45), darkMat);
     bottomPlate.position.y = -0.07;
     bodyGroup.add(bottomPlate);
@@ -97,7 +83,7 @@ export function ThreeBackground() {
     gimbal.add(cameraLens);
     drone.add(gimbal);
     
-    // LEDs frontales (verdes) y traseros (rojos)
+    // LEDs
     const ledGreen1 = new THREE.Mesh(new THREE.SphereGeometry(0.03), new THREE.MeshBasicMaterial({ color: 0x22c55e }));
     ledGreen1.position.set(0.15, 0.05, 0.26);
     drone.add(ledGreen1);
@@ -117,39 +103,33 @@ export function ThreeBackground() {
     const ledFront = ledGreen1;
     const ledBack = ledRed1;
     
-    // Brazos y motores - configuración en X
+    // Brazos y motores
     const propellers: THREE.Group[] = [];
     const motorDist = 0.7;
     
-    // Posiciones de los 4 motores en las esquinas
     const corners = [
-      { x: motorDist, z: motorDist },     // Frontal derecho
-      { x: -motorDist, z: motorDist },    // Frontal izquierdo  
-      { x: motorDist, z: -motorDist },    // Trasero derecho
-      { x: -motorDist, z: -motorDist },   // Trasero izquierdo
+      { x: motorDist, z: motorDist },
+      { x: -motorDist, z: motorDist },
+      { x: motorDist, z: -motorDist },
+      { x: -motorDist, z: -motorDist },
     ];
     
     corners.forEach((corner) => {
-      // BRAZO: Calcular longitud y ángulo
       const armLength = Math.sqrt(corner.x * corner.x + corner.z * corner.z) - 0.2;
-      const angle = Math.atan2(corner.x, corner.z); // Nota: invertí x,z para el ángulo correcto
+      const angle = Math.atan2(corner.x, corner.z);
       
       const arm = new THREE.Mesh(
         new THREE.CylinderGeometry(0.04, 0.04, armLength, 8),
         armMat
       );
       
-      // Posicionar el brazo en el punto medio entre centro y motor
       arm.position.set(corner.x * 0.5, 0.02, corner.z * 0.5);
-      
-      // Rotar: primero acostamos el cilindro, luego lo orientamos hacia el motor
-      arm.rotation.order = 'YXZ'; // Cambiar orden de rotación
-      arm.rotation.x = Math.PI / 2; // Acostar el cilindro (ahora apunta en Z)
-      arm.rotation.y = angle; // Rotar hacia la esquina correcta
+      arm.rotation.order = 'YXZ';
+      arm.rotation.x = Math.PI / 2;
+      arm.rotation.y = angle;
       
       drone.add(arm);
       
-      // Soporte del motor
       const motorMount = new THREE.Mesh(
         new THREE.CylinderGeometry(0.1, 0.12, 0.05, 16),
         darkMat
@@ -157,7 +137,6 @@ export function ThreeBackground() {
       motorMount.position.set(corner.x, 0.05, corner.z);
       drone.add(motorMount);
       
-      // Motor
       const motor = new THREE.Mesh(
         new THREE.CylinderGeometry(0.07, 0.07, 0.08, 16),
         darkMat
@@ -165,7 +144,6 @@ export function ThreeBackground() {
       motor.position.set(corner.x, 0.11, corner.z);
       drone.add(motor);
       
-      // Hélices
       const propGroup = new THREE.Group();
       propGroup.position.set(corner.x, 0.17, corner.z);
       
@@ -177,7 +155,6 @@ export function ThreeBackground() {
       propellers.push(propGroup);
       drone.add(propGroup);
       
-      // Protector de hélice
       const guard = new THREE.Mesh(
         new THREE.TorusGeometry(0.26, 0.01, 8, 24),
         new THREE.MeshStandardMaterial({ color: 0x4b5563, metalness: 0.5, roughness: 0.5 })
@@ -227,37 +204,29 @@ export function ThreeBackground() {
       particles.geometry.attributes.position.needsUpdate = true;
       particles.rotation.y += 0.0006;
 
-      // Drone movement: más libre y dinámico
-      // Movimiento autónomo complejo (figura 8 + ondas)
-      const autoX = Math.sin(time * 0.4) * 3 + Math.sin(time * 0.7) * 1.5;
-      const autoY = Math.cos(time * 0.3) * 2 + Math.sin(time * 0.5) * 0.8 + 1.5;
-      const autoZ = Math.sin(time * 0.6) * 1.5 + Math.cos(time * 0.4) * 0.5;
+      // Drone autonomous movement (figure 8 pattern + waves)
+      const targetX = Math.sin(time * 0.4) * 2.5 + Math.sin(time * 0.7) * 1;
+      const targetY = Math.cos(time * 0.3) * 1.5 + Math.sin(time * 0.5) * 0.5 + 1.5;
+      const targetZ = Math.sin(time * 0.6) * 1 + Math.cos(time * 0.4) * 0.3;
       
-      // Combinar mouse + autónomo con más libertad
-      const targetX = mouse.x * 5 + autoX * 0.6;
-      const targetY = mouse.y * 4 + autoY * 0.5;
-      const targetZ = autoZ;
+      // Smooth movement
+      drone.position.x += (targetX - drone.position.x) * 0.02;
+      drone.position.y += (targetY - drone.position.y) * 0.02;
+      drone.position.z += (targetZ - drone.position.z) * 0.02;
       
-      // Movimiento más suave y fluido
-      drone.position.x += (targetX - drone.position.x) * 0.03;
-      drone.position.y += (targetY - drone.position.y) * 0.03;
-      drone.position.z += (targetZ - drone.position.z) * 0.03;
-      
-      // Inclinación más pronunciada para movimientos libres
+      // Tilt based on movement
       const vx = targetX - drone.position.x;
       const vy = targetY - drone.position.y;
       const vz = targetZ - drone.position.z;
-      drone.rotation.z = -vx * 0.3;
-      drone.rotation.x = -vy * 0.25 + vz * 0.1;
-      drone.rotation.y += 0.006;
+      drone.rotation.z = -vx * 0.4;
+      drone.rotation.x = -vy * 0.3 + vz * 0.1;
+      drone.rotation.y += 0.005;
 
       // Spin propellers
       propellers.forEach((p, i) => p.rotation.y += (i % 2 ? -0.5 : 0.5));
 
-      // Camera
-      camera.position.x += (mouse.x * 0.4 - camera.position.x) * 0.02;
-      camera.position.y += (mouse.y * 0.3 + 1 - camera.position.y) * 0.02;
-      camera.lookAt(0, 0, 0);
+      // Static camera
+      camera.lookAt(0, 1, 0);
 
       renderer.render(scene, camera);
     }
@@ -275,8 +244,6 @@ export function ThreeBackground() {
     return () => {
       initialized.current = false;
       clearInterval(ledBlink);
-      document.removeEventListener('mousemove', updateMouse);
-      document.removeEventListener('mouseenter', updateMouse);
       window.removeEventListener('resize', onResize);
       containerRef.current?.removeChild(renderer.domElement);
       renderer.dispose();

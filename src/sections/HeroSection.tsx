@@ -94,6 +94,7 @@ const FloatingIcon = ({
 };
 
 const HeroSection = () => {
+  const nameRef = useRef<HTMLParagraphElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const subtitleRef = useRef<HTMLHeadingElement>(null);
   const descriptionRef = useRef<HTMLParagraphElement>(null);
@@ -103,13 +104,14 @@ const HeroSection = () => {
   useEffect(() => {
     const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
 
-    gsap.set([titleRef.current, subtitleRef.current, descriptionRef.current, buttonsRef.current], {
+    gsap.set([nameRef.current, titleRef.current, subtitleRef.current, descriptionRef.current, buttonsRef.current], {
       opacity: 0,
       y: 50,
     });
     gsap.set(scrollIndicatorRef.current, { opacity: 0, y: 20 });
 
-    tl.to(titleRef.current, { opacity: 1, y: 0, duration: 0.8 })
+    tl.to(nameRef.current, { opacity: 1, y: 0, duration: 0.6 })
+      .to(titleRef.current, { opacity: 1, y: 0, duration: 0.8 }, '-=0.3')
       .to(subtitleRef.current, { opacity: 1, y: 0, duration: 0.8 }, '-=0.5')
       .to(descriptionRef.current, { opacity: 1, y: 0, duration: 0.6 }, '-=0.4')
       .to(buttonsRef.current, { opacity: 1, y: 0, duration: 0.6 }, '-=0.3')
@@ -145,21 +147,27 @@ const HeroSection = () => {
       ))}
 
       <div className="max-w-4xl text-center z-10">
+        <p 
+          ref={nameRef}
+          className="text-lg md:text-xl text-gray-600 mb-2 font-medium"
+        >
+          Hola, soy
+        </p>
         <h1 
           ref={titleRef}
-          className="text-5xl md:text-6xl lg:text-7xl mb-4 text-black font-bold"
+          className="text-4xl md:text-5xl lg:text-6xl mb-2 text-black font-bold"
         >
-          Ingeniero de sistemas 
+          Juan Jose Ortiz Rouille
         </h1>
 
-        <h1 
+        <h2 
           ref={subtitleRef}
-          className="text-5xl md:text-6xl lg:text-7xl mb-4 text-black font-bold"
+          className="text-3xl md:text-4xl lg:text-5xl mb-4 font-bold"
         >
-          <span className="bg-gradient-to-r from-blue-500 via-cyan-400 to-cyan-500 bg-clip-text text-transparent font-bold">
+          <span className="bg-gradient-to-r from-blue-500 via-cyan-400 to-cyan-500 bg-clip-text text-transparent">
             Full Stack Developer
           </span>
-        </h1>
+        </h2>
         
         <p 
           ref={descriptionRef}
