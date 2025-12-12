@@ -70,7 +70,9 @@ const ProjectsSection = () => {
       category: 'Web Development',
       categoryColor: 'bg-blue-100 text-blue-600',
       technologies: ['React', 'Tailwind CSS', 'three.js'],
-      // Sin links - no mostrará iconos
+      links: [
+        { type: 'github', url: 'https://github.com/jor334/portfolio' },
+      ],
     },
   ];
 
