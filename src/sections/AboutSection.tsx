@@ -114,11 +114,11 @@ const AboutSection = () => {
 
         {/* Subtitle */}
         <p className="gsap-fade-up text-gray-600 text-lg mb-12">
-          6to semestre · Especializado en desarrollo full stack con énfasis en frontend, drones y automatización con agentes de inteligencia artificial.
+          6to semestre en Universidad de los Andes · Especializado en desarrollo full stack con énfasis en frontend, drones y automatización con agentes de inteligencia artificial.
         </p>
 
         {/* Stats */}
-        <div className="gsap-fade-up flex flex-wrap gap-8 md:gap-16 mb-12 pb-12 border-b border-gray-200">
+        <div className="gsap-fade-up flex flex-wrap items-center gap-8 md:gap-16 mb-12 pb-12 border-b border-gray-200">
           <div>
             <p className="text-3xl md:text-4xl font-bold text-gray-900">6to</p>
             <p className="text-gray-500 text-sm">Semestre actual</p>
@@ -130,6 +130,14 @@ const AboutSection = () => {
           <div className="flex items-center gap-3">
             <FaTrophy className="text-4xl md:text-5xl text-amber-400" />
             <p className="text-gray-500 text-sm">Hackathon ganado</p>
+          </div>
+          <div className="flex items-center gap-3">
+            <img 
+              src="/uniandes-logo.png" 
+              alt="Universidad de los Andes" 
+              className="h-10 md:h-12 w-auto"
+            />
+            <p className="text-gray-500 text-sm">Universidad de<br />los Andes</p>
           </div>
         </div>
 
