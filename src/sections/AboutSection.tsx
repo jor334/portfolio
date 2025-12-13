@@ -1,8 +1,7 @@
 import { useRef, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Card from "../components/Card";
-import { FaCode, FaRobot, FaServer, FaCogs, FaJava } from "react-icons/fa";
+import { FaTrophy, FaMedal, FaBolt, FaMicrochip, FaJava } from "react-icons/fa";
 import { 
   SiReact, 
   SiAngular, 
@@ -34,6 +33,39 @@ const technologies = [
   { Icon: SiDocker, color: '#2496ED', name: 'Docker' },
   { Icon: SiAmazon, color: '#FF9900', name: 'AWS' },
   { Icon: SiPython, color: '#3776AB', name: 'Python' },
+];
+
+const projects = [
+  {
+    label: "2025 — Logro",
+    title: 'Ganador Hackathon "AI Voice and Message"',
+    description: "Primer lugar en competencia desarrollando un sistema de gestion de inventario por voz.",
+    icon: FaMedal,
+    iconBg: "bg-amber-100",
+    iconColor: "text-amber-500",
+    accentColor: "bg-amber-500",
+    tags: ["React Native", "Supabase", "Tailwind CSS", "Node.js", "N8N", "MCP servers", "ElevenLabs"]
+  },
+  {
+    label: "Actual — Side Project",
+    title: "Sistema de gestion de citas con agentes conversacionales",
+    description: "Desarrollo de un sistema de gestion de citas con agentes conversacionales para gestion de citas y agendamiento automatico para negocios.",
+    icon: FaBolt,
+    iconBg: "bg-blue-100",
+    iconColor: "text-blue-500",
+    accentColor: "bg-blue-500",
+    tags: ["Java", "Typescript", "Spring Boot", "MongoDB", "Angular", "Node.js", "N8N", "MCP servers"]
+  },
+  {
+    label: "Universidad — Proyecto Principal",
+    title: "Dron autonomo para competencia de robotica - Robocol",
+    description: "Desarrollo de software de control y navegación para drones autónomos. Incluye programación de vuelo, procesamiento de sensores y ensamblaje electrónico completo. Este proyecto se esta desarrollado para la competencia de robotica SUAS2026 en la universidad de los andes.",
+    icon: FaMicrochip,
+    iconBg: "bg-pink-100",
+    iconColor: "text-pink-500",
+    accentColor: "bg-pink-500",
+    tags: ["Python", "Dronekit", "shell", "Computer Vision", "mavlink"]
+  }
 ];
 
 const AboutSection = () => {
@@ -69,57 +101,78 @@ const AboutSection = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} id="about" className="py-24 px-8 bg-white">
-      <div className="max-w-6xl mx-auto">
-        <h2 className="gsap-fade-up text-4xl md:text-5xl text-center mb-12 text-gray-800 font-bold relative pb-4">
-          Sobre{' '}
-          <span className="bg-gradient-to-r from-blue-500 via-cyan-400 to-cyan-500 bg-clip-text text-transparent font-bold">
-            Mí
-          </span>
-          <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-20 h-1 bg-gradient-to-r from-purple-600 to-purple-800 rounded-full" />
-        </h2>
+    <section ref={sectionRef} id="about" className="py-24 px-4 md:px-8 bg-white">
+      <div className="max-w-4xl mx-auto">
         
-        {/* Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="gsap-fade-up">
-            <Card 
-              title="Frontend" 
-              description="React, TypeScript, Tailwind CSS. Interfaces modernas y responsivas." 
-              icon={<FaCode size={24} />} 
-            />
+        {/* Main Heading */}
+        <h2 className="gsap-fade-up text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 leading-tight mb-6">
+          Estudiante de Ingeniería de Software enfocado en{' '}
+          <span className="bg-gradient-to-r from-blue-500 to-cyan-400 bg-clip-text text-transparent">
+            crear soluciones innovadoras
+          </span>
+        </h2>
+
+        {/* Subtitle */}
+        <p className="gsap-fade-up text-gray-600 text-lg mb-12">
+          6to semestre · Especializado en desarrollo full stack con énfasis en frontend, drones y automatización con agentes de inteligencia artificial.
+        </p>
+
+        {/* Stats */}
+        <div className="gsap-fade-up flex flex-wrap gap-8 md:gap-16 mb-12 pb-12 border-b border-gray-200">
+          <div>
+            <p className="text-3xl md:text-4xl font-bold text-gray-900">6to</p>
+            <p className="text-gray-500 text-sm">Semestre actual</p>
           </div>
-          <div className="gsap-fade-up">
-            <Card 
-              title="Drones Autónomos" 
-              description="Desarrollo de sistemas de navegación y control para drones." 
-              icon={<FaRobot size={24} />} 
-            />
+          <div>
+            <p className="text-3xl md:text-4xl font-bold text-gray-900">3+</p>
+            <p className="text-gray-500 text-sm">Proyectos activos</p>
           </div>
-          <div className="gsap-fade-up">
-            <Card 
-              title="ERPs" 
-              description="Sistemas empresariales integrados para gestión eficiente." 
-              icon={<FaServer size={24} />} 
-            />
-          </div>
-          <div className="gsap-fade-up">
-            <Card 
-              title="Automatización IA" 
-              description="Soluciones inteligentes con IA para optimizar procesos." 
-              icon={<FaCogs size={24} />} 
-            />
+          <div className="flex items-center gap-3">
+            <FaTrophy className="text-4xl md:text-5xl text-amber-400" />
+            <p className="text-gray-500 text-sm">Hackathon ganado</p>
           </div>
         </div>
 
-        {/* Text */}
-        <div className="gsap-fade-up text-center">
-          <p className="text-gray-600 mt-10 text-lg">
-          Soy estudiante de Ingeniería de Software con pasión por el desarrollo full stack <br /> y especial énfasis en frontend. Mi trabajo en la iniciativa de drones autónomos de mi universidad me ha <br /> permitido combinar programación avanzada con conocimientos de electrónica. Me especializo <br /> en crear soluciones innovadoras que integran desarrollo web moderno, sistemas ERP <br /> y automatización con inteligencia artificial.
-          </p>
+        {/* Project Cards */}
+        <div className="space-y-8 pb-12 border-b border-gray-200">
+          {projects.map((project, index) => (
+            <div key={index} className="gsap-fade-up">
+              <div className="flex items-start justify-between gap-4">
+                <div className="flex-1">
+                  <p className="text-sm text-blue-500 mb-2">{project.label}</p>
+                  <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-3">
+                    {project.title}
+                  </h3>
+                  <p className="text-gray-600 leading-relaxed mb-4">
+                    {project.description}
+                  </p>
+                  
+                  {project.tags.length > 0 && (
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {project.tags.map((tag, tagIndex) => (
+                        <span 
+                          key={tagIndex}
+                          className="text-xs text-gray-600 font-medium"
+                        >
+                          {tag}{tagIndex < project.tags.length - 1 && <span className="ml-2">·</span>}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                  
+                  <div className={`w-24 h-1 ${project.accentColor} rounded-full`}></div>
+                </div>
+                
+                <div className={`flex-shrink-0 w-12 h-12 md:w-14 md:h-14 rounded-full ${project.iconBg} flex items-center justify-center`}>
+                  <project.icon className={`text-xl md:text-2xl ${project.iconColor}`} />
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
 
         {/* Technologies Grid */}
-        <div className="mt-16">
+        <div className="mt-12">
           <h3 className="gsap-fade-up text-2xl font-bold text-center mb-8 text-gray-800">
             Tecnologías
           </h3>
