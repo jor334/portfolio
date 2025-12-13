@@ -85,28 +85,54 @@ const ProjectsSection = () => {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      const animatedElements = gsap.utils.toArray<HTMLElement>('.gsap-fade-up');
-      
-      animatedElements.forEach((element, index) => {
-        gsap.fromTo(element,
-          { 
-            y: 40,
-            opacity: 0,
+      // Animate title
+      gsap.fromTo('.projects-title',
+        { y: 30, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.6,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: '.projects-title',
+            start: "top 90%",
+            toggleActions: "play none none none",
           },
-          {
-            y: 0,
-            opacity: 1,
-            duration: 0.8,
-            delay: index * 0.1,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: element,
-              start: "top 90%",
-              toggleActions: "play none none none",
-            },
-          }
-        );
-      });
+        }
+      );
+
+      // Animate cards with stagger from a single trigger
+      gsap.fromTo('.project-card',
+        { y: 40, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.6,
+          stagger: 0.15,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: '.projects-grid',
+            start: "top 85%",
+            toggleActions: "play none none none",
+          },
+        }
+      );
+
+      // Animate button
+      gsap.fromTo('.projects-button',
+        { y: 20, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.6,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: '.projects-button',
+            start: "top 95%",
+            toggleActions: "play none none none",
+          },
+        }
+      );
     }, sectionRef);
 
     return () => ctx.revert();
@@ -115,18 +141,18 @@ const ProjectsSection = () => {
   return (
     <section ref={sectionRef} id="projects" className="py-24 px-8 bg-gray-50">
       <div className="max-w-6xl mx-auto">
-        <h2 className="gsap-fade-up text-4xl md:text-5xl text-center mb-16 text-gray-800 font-bold">
+        <h2 className="projects-title text-4xl md:text-5xl text-center mb-16 text-gray-800 font-bold opacity-0">
           Mis{' '}
           <span className="bg-gradient-to-r from-blue-500 via-cyan-400 to-cyan-500 bg-clip-text text-transparent font-bold">
             Proyectos
           </span>
         </h2>
         
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="projects-grid grid md:grid-cols-2 gap-6">
           {projects.map((project) => (
             <div 
               key={project.id}
-              className="gsap-fade-up bg-white rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100"
+              className="project-card bg-white rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 opacity-0"
             >
               {/* Header: Category + Icons */}
               <div className="flex items-center justify-between mb-4">
@@ -181,7 +207,7 @@ const ProjectsSection = () => {
         </div>
 
         {/* GitHub Button */}
-        <div className="gsap-fade-up flex justify-center mt-12">
+        <div className="projects-button flex justify-center mt-12 opacity-0">
           <a 
             href="https://github.com/jor334" 
             target="_blank" 
