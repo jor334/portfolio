@@ -179,6 +179,19 @@ const ProjectsSection = () => {
             </div>
           ))}
         </div>
+
+        {/* GitHub Button */}
+        <div className="gsap-fade-up flex justify-center mt-12">
+          <a 
+            href="https://github.com/jor334" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-gray-900 hover:bg-gray-800 text-white font-medium rounded-full transition-all duration-300 hover:scale-105 hover:shadow-lg"
+          >
+            <FaGithub className="text-xl" />
+            Ver más proyectos
+          </a>
+        </div>
       </div>
     </section>
   );

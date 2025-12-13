@@ -118,61 +118,61 @@ const AboutSection = () => {
         </p>
 
         {/* Stats */}
-        <div className="gsap-fade-up flex flex-wrap items-center gap-8 md:gap-16 mb-12 pb-12 border-b border-gray-200">
-          <div>
-            <p className="text-3xl md:text-4xl font-bold text-gray-900">6to</p>
-            <p className="text-gray-500 text-sm">Semestre actual</p>
+        <div className="gsap-fade-up grid grid-cols-2 sm:grid-cols-4 gap-6 md:gap-10 mb-12 pb-12 border-b border-gray-200">
+          <div className="text-center sm:text-left">
+            <p className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900">6to</p>
+            <p className="text-gray-500 text-xs sm:text-sm">Semestre actual</p>
           </div>
-          <div>
-            <p className="text-3xl md:text-4xl font-bold text-gray-900">3+</p>
-            <p className="text-gray-500 text-sm">Proyectos activos</p>
+          <div className="text-center sm:text-left">
+            <p className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900">3+</p>
+            <p className="text-gray-500 text-xs sm:text-sm">Proyectos activos</p>
           </div>
-          <div className="flex items-center gap-3">
-            <FaTrophy className="text-4xl md:text-5xl text-amber-400" />
-            <p className="text-gray-500 text-sm">Hackathon ganado</p>
+          <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-3">
+            <FaTrophy className="text-3xl sm:text-4xl md:text-5xl text-amber-400" />
+            <p className="text-gray-500 text-xs sm:text-sm text-center sm:text-left">Hackathon<br className="hidden sm:block" /> ganado</p>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-3">
             <img 
               src="/uniandes-logo.png" 
               alt="Universidad de los Andes" 
-              className="h-10 md:h-12 w-auto"
+              className="h-8 sm:h-10 md:h-12 w-auto"
             />
-            <p className="text-gray-500 text-sm">Universidad de<br />los Andes</p>
+            <p className="text-gray-500 text-xs sm:text-sm text-center sm:text-left">Universidad de<br />los Andes</p>
           </div>
         </div>
 
         {/* Project Cards */}
-        <div className="space-y-8 pb-12 border-b border-gray-200">
+        <div className="space-y-6 sm:space-y-8 pb-12 border-b border-gray-200">
           {projects.map((project, index) => (
             <div key={index} className="gsap-fade-up">
-              <div className="flex items-start justify-between gap-4">
-                <div className="flex-1">
-                  <p className="text-sm text-blue-500 mb-2">{project.label}</p>
-                  <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-3">
+              <div className="flex items-start justify-between gap-3 sm:gap-4">
+                <div className="flex-1 min-w-0">
+                  <p className="text-xs sm:text-sm text-blue-500 mb-1 sm:mb-2">{project.label}</p>
+                  <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 mb-2 sm:mb-3">
                     {project.title}
                   </h3>
-                  <p className="text-gray-600 leading-relaxed mb-4">
+                  <p className="text-sm sm:text-base text-gray-600 leading-relaxed mb-3 sm:mb-4">
                     {project.description}
                   </p>
                   
                   {project.tags.length > 0 && (
-                    <div className="flex flex-wrap gap-2 mb-4">
+                    <div className="flex flex-wrap gap-1 sm:gap-2 mb-3 sm:mb-4">
                       {project.tags.map((tag, tagIndex) => (
                         <span 
                           key={tagIndex}
-                          className="text-xs text-gray-600 font-medium"
+                          className="text-[10px] sm:text-xs text-gray-600 font-medium"
                         >
-                          {tag}{tagIndex < project.tags.length - 1 && <span className="ml-2">·</span>}
+                          {tag}{tagIndex < project.tags.length - 1 && <span className="ml-1 sm:ml-2">·</span>}
                         </span>
                       ))}
                     </div>
                   )}
                   
-                  <div className={`w-24 h-1 ${project.accentColor} rounded-full`}></div>
+                  <div className={`w-16 sm:w-24 h-1 ${project.accentColor} rounded-full`}></div>
                 </div>
                 
-                <div className={`flex-shrink-0 w-12 h-12 md:w-14 md:h-14 rounded-full ${project.iconBg} flex items-center justify-center`}>
-                  <project.icon className={`text-xl md:text-2xl ${project.iconColor}`} />
+                <div className={`shrink-0 w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full ${project.iconBg} flex items-center justify-center`}>
+                  <project.icon className={`text-lg sm:text-xl md:text-2xl ${project.iconColor}`} />
                 </div>
               </div>
             </div>
@@ -185,15 +185,15 @@ const AboutSection = () => {
             Tecnologías
           </h3>
           
-          <div className="gsap-fade-up bg-gray-50 rounded-2xl p-6 md:p-8">
-            <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-7 lg:grid-cols-13 gap-6 justify-items-center">
+          <div className="gsap-fade-up bg-gray-50 rounded-2xl p-4 sm:p-6 md:p-8">
+            <div className="flex flex-wrap justify-center gap-3 sm:gap-4 md:gap-5">
               {technologies.map((tech, index) => (
                 <div 
                   key={index}
-                  className="flex flex-col items-center group"
+                  className="flex flex-col items-center group w-16 sm:w-18 md:w-20"
                 >
                   <div 
-                    className="w-14 h-14 md:w-16 md:h-16 flex items-center justify-center rounded-xl bg-white border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-300 hover:scale-110 hover:-translate-y-1 cursor-pointer"
+                    className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 flex items-center justify-center rounded-xl bg-white border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-300 hover:scale-110 hover:-translate-y-1 cursor-pointer"
                     onMouseEnter={(e) => {
                       e.currentTarget.style.backgroundColor = `${tech.color}20`;
                       e.currentTarget.style.borderColor = tech.color;
@@ -203,9 +203,9 @@ const AboutSection = () => {
                       e.currentTarget.style.borderColor = '';
                     }}
                   >
-                    <tech.Icon className="text-2xl md:text-3xl transition-transform duration-300 group-hover:scale-110" style={{ color: tech.color }} />
+                    <tech.Icon className="text-xl sm:text-2xl md:text-3xl transition-transform duration-300 group-hover:scale-110" style={{ color: tech.color }} />
                   </div>
-                  <span className="text-xs md:text-sm text-gray-700 mt-2 font-semibold text-center">
+                  <span className="text-[10px] sm:text-xs md:text-sm text-gray-700 mt-2 font-semibold text-center leading-tight">
                     {tech.name}
                   </span>
                 </div>
