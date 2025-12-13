@@ -14,22 +14,22 @@ const ContactSection = () => {
     const ctx = gsap.context(() => {
       const animatedElements = gsap.utils.toArray<HTMLElement>('.gsap-fade-up');
       
-      animatedElements.forEach((element) => {
+      animatedElements.forEach((element, index) => {
         gsap.fromTo(element,
           { 
-            y: 30,
+            y: 40,
             opacity: 0,
           },
           {
             y: 0,
             opacity: 1,
-            duration: 1,
+            duration: 0.8,
+            delay: index * 0.1,
             ease: "power2.out",
             scrollTrigger: {
               trigger: element,
-              start: "top 92%",
-              end: "top 60%",
-              scrub: 1,
+              start: "top 90%",
+              toggleActions: "play none none none",
             },
           }
         );
